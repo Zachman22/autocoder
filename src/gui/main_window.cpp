@@ -3,6 +3,7 @@
 #include "gui/chat_panel.h"
 #include "gui/debugger_panel.h"
 #include "gui/output_panel.h"
+#include "character_card/character_builder_window.h"
 #include <QMenuBar>
 #include <QToolBar>
 #include <QDockWidget>
@@ -72,6 +73,8 @@ void MainWindow::createMenus() {
 
     // Tools menu
     QMenu* toolsMenu = menuBar()->addMenu("&Tools");
+    toolsMenu->addAction("&Character Builder", this, &MainWindow::onCharacterBuilder, QKeySequence("Ctrl+Shift+C"));
+    toolsMenu->addSeparator();
     toolsMenu->addAction("&Settings", this, &MainWindow::onSettings, QKeySequence("Ctrl+,"));
 
     // Help menu
@@ -194,6 +197,13 @@ void MainWindow::onChatMessageSent(const QString& message) {
 
 void MainWindow::onDebuggerStateChanged(const QString& state) {
     statusBar()->showMessage("Debugger: " + state);
+}
+
+void MainWindow::onCharacterBuilder() {
+    // Create and show the Character Builder window
+    auto* characterBuilder = new CharacterCard::CharacterBuilderWindow(this);
+    characterBuilder->setAttribute(Qt::WA_DeleteOnClose);
+    characterBuilder->show();
 }
 
 } // namespace GUI

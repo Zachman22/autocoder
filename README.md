@@ -35,6 +35,16 @@
 - **Code Generation**: Automatically generates GUI code in your target language
 - **Widget Library**: Extensive library of pre-built widgets and components
 
+### 🎭 Character Card Builder
+- **SillyTavern Compatible**: Create perfect character cards for AI roleplay
+- **Personality System**: Advanced sliders and trait mixing for rich characters
+- **Memory & Lore Engine**: Persistent memory, world building, and character history
+- **Behavior Rules**: No-code behavior configuration with validation
+- **Import/Export**: Support for multiple platforms (SillyTavern, Character.AI, etc.)
+- **Wizard Interface**: Guided step-by-step character creation
+- **Web Integration**: Import kinks/fetishes databases and external cards
+- **Preview & Validation**: Real-time validation with token counting
+
 ### ✍️ Enhanced Spell Checker
 - **Context-Aware**: Understands code context for better suggestions
 - **Multi-Language**: Supports multiple natural languages

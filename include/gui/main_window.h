@@ -55,6 +55,7 @@ private slots:
 
     void onSettings();
     void onAbout();
+    void onCharacterBuilder();
 
     void onChatMessageSent(const QString& message);
     void onDebuggerStateChanged(const QString& state);
