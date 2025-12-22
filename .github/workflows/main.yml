@@ -1,0 +1,96 @@
+name: Build Installers (Windows, macOS, Linux)
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----------------------------
+      # Toolchains
+      # ----------------------------
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      # Windows needs MSVC environment
+      - name: Setup MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      # ----------------------------
+      # Configure
+      # ----------------------------
+      - name: Configure (Windows)
+        if: runner.os == 'Windows'
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Release
+
+      - name: Configure (macOS / Linux)
+        if: runner.os != 'Windows'
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      # ----------------------------
+      # Build
+      # ----------------------------
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cmake --build build --config Release
+
+      - name: Build (macOS / Linux)
+        if: runner.os != 'Windows'
+        run: |
+          cmake --build build --parallel
+
+      # ----------------------------
+      # Package (CPack)
+      # ----------------------------
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd build
+          cpack -G NSIS
+
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          cd build
+          cpack -G DragNDrop
+
+      - name: Package (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd build
+          cpack -G TGZ
+
+      # ----------------------------
+      # Upload artifacts
+      # ----------------------------
+      - name: Upload installer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.os }}
+          path: |
+            build/*.exe
+            build/*.msi
+            build/*.dmg
+            build/*.pkg
+            build/*.AppImage
+            build/*.deb
+            build/*.rpm
+            build/*.tar.gz
