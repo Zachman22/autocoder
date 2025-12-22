@@ -33,6 +33,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/include/gui_maker
     ${CMAKE_SOURCE_DIR}/include/compiler
     ${CMAKE_SOURCE_DIR}/include/gui
+    ${CMAKE_SOURCE_DIR}/include/character_card
 )
 
 # Core library
@@ -109,6 +110,24 @@ add_library(gui STATIC
     src/gui/theme_manager.cpp
 )
 
+# Character Card Builder library
+add_library(character_card STATIC
+    src/character_card/card_data.cpp
+    src/character_card/card_validator.cpp
+    src/character_card/web_scraper.cpp
+    src/character_card/card_importer.cpp
+    src/character_card/character_builder_window.cpp
+    src/character_card/basic_info_panel.cpp
+    src/character_card/personality_panel.cpp
+    src/character_card/memory_lore_panel.cpp
+    src/character_card/dialogue_panel.cpp
+    src/character_card/world_builder_panel.cpp
+    src/character_card/portrait_panel.cpp
+    src/character_card/export_dialog.cpp
+    src/character_card/wizard_dialog.cpp
+    src/character_card/preset_manager.cpp
+)
+
 # Link Qt to GUI library
 target_link_libraries(gui
     Qt6::Core
@@ -116,6 +135,15 @@ target_link_libraries(gui
     Qt6::Network
     Qt6::WebSockets
     Qt6::Gui
+)
+
+# Link Qt to Character Card library
+target_link_libraries(character_card
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Network
+    Qt6::Gui
+    CURL::libcurl
 )
 
 # Main executable
@@ -134,6 +162,7 @@ target_link_libraries(autocoder
     gui_maker
     compiler
     gui
+    character_card
     Qt6::Core
     Qt6::Widgets
     Qt6::Network
