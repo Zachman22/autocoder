@@ -14,6 +14,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mobile app for code review
 - VS Code and IntelliJ integration
 
+## [1.1.0] - 2025-12-22
+
+### Added
+- Comprehensive installer generation system with automated packaging script
+- GitHub Actions CI/CD workflow for automated release builds
+- Multi-platform installer support (DEB, RPM, DMG, NSIS)
+- Quick start guide for installer generation (QUICK_START_INSTALLERS.md)
+- Detailed release process documentation (RELEASE.md)
+- Enhanced packaging documentation (PACKAGING.md)
+
+### Improved
+- Automated build and release workflow for all platforms
+- Cross-platform installer consistency
+- Release process automation and documentation
+
 ## [1.0.0] - 2025-01-15
 
 ### Added
@@ -233,5 +248,6 @@ This is the first release, no upgrade needed.
 
 ---
 
-[Unreleased]: https://github.com/yourusername/autocoder/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/yourusername/autocoder/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/yourusername/autocoder/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/yourusername/autocoder/releases/tag/v1.0.0
