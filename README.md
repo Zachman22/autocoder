@@ -76,13 +76,30 @@ cmake --build . -j$(nproc)
 sudo cmake --install .
 ```
 
-### Using the Installer
+### Using Pre-Built Installers
 
-Download the installer for your platform from the [Releases](https://github.com/yourusername/autocoder/releases) page:
+Pre-built installers are automatically generated via GitHub Actions when releases are created:
 
-- **Windows**: `AutoCoder-1.0.0-win64.exe`
-- **Linux**: `AutoCoder-1.0.0-linux-x86_64.deb` or `.rpm`
-- **macOS**: `AutoCoder-1.0.0-macOS.dmg`
+1. **Download from GitHub Releases** (once available):
+   - Go to the [Releases](https://github.com/yourusername/autocoder/releases) page
+   - Download the installer for your platform:
+     - **Windows**: `AutoCoder-1.0.0-win64.exe`
+     - **Linux (DEB)**: `AutoCoder-1.0.0-Linux.deb`
+     - **Linux (RPM)**: `AutoCoder-1.0.0-Linux.rpm`
+     - **macOS**: `AutoCoder-1.0.0-Darwin.dmg`
+
+2. **Or Build Installers Locally**:
+
+   If you have all dependencies installed (Qt6, OpenSSL, libcurl), you can generate installers:
+
+   ```bash
+   # Automated packaging
+   ./scripts/package-installers.sh
+
+   # Installers will be in build-release/
+   ```
+
+   For detailed packaging instructions, see [PACKAGING.md](PACKAGING.md)
 
 ## Configuration
 
