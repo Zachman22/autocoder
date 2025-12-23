@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AutoCoder
+GenericName=AI-Powered Code Editor
+Comment=Self-Improving AutoCoder with AI Integration
+Exec=autocoder %F
+Icon=autocoder
+Terminal=false
+Categories=Development;IDE;TextEditor;
+MimeType=text/x-c;text/x-c++;text/x-java;text/x-python;text/plain;
+Keywords=code;editor;IDE;programming;AI;development;
+StartupNotify=true
+StartupWMClass=autocoder

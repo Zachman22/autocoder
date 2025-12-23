@@ -153,7 +153,20 @@ endif()
 
 # Installation
 install(TARGETS autocoder DESTINATION bin)
-install(DIRECTORY resources/ DESTINATION share/autocoder)
+
+# Install desktop file for Linux
+if(UNIX AND NOT APPLE)
+    install(FILES ${CMAKE_SOURCE_DIR}/resources/autocoder.desktop
+            DESTINATION share/applications)
+    install(FILES ${CMAKE_SOURCE_DIR}/resources/autocoder.svg
+            DESTINATION share/pixmaps)
+    install(FILES ${CMAKE_SOURCE_DIR}/resources/autocoder.svg
+            DESTINATION share/icons/hicolor/scalable/apps)
+endif()
+
+# Install other resources
+install(DIRECTORY resources/ DESTINATION share/autocoder
+        PATTERN "*.desktop" EXCLUDE)
 
 # CPack configuration for installer
 if(BUILD_INSTALLER)
@@ -177,6 +190,24 @@ if(BUILD_INSTALLER)
     else()
         set(CPACK_GENERATOR "DEB;RPM")
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "AutoCoder Team")
+
+        # Debian package settings
+        set(CPACK_DEBIAN_PACKAGE_SECTION "devel")
+        set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "qt6-base-gui, libqt6core6, libqt6widgets6, libqt6network6, libssl3 | libssl1.1, libcurl4")
+
+        # Update desktop database after install/uninstall
+        set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+            "${CMAKE_SOURCE_DIR}/packaging/postinst;${CMAKE_SOURCE_DIR}/packaging/postrm")
+
+        # RPM package settings
+        set(CPACK_RPM_PACKAGE_GROUP "Development/Tools")
+        set(CPACK_RPM_PACKAGE_LICENSE "MIT")
+        set(CPACK_RPM_PACKAGE_REQUIRES "qt6-qtbase >= 6.0, openssl-libs, libcurl")
+
+        # RPM post-install scripts
+        set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${CMAKE_SOURCE_DIR}/packaging/postinst")
+        set(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_SOURCE_DIR}/packaging/postrm")
     endif()
 
     include(CPack)
