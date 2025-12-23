@@ -5,6 +5,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <map>
 
 namespace AutoCoder {
 namespace Chatbot {

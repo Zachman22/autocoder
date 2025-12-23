@@ -43,12 +43,22 @@ add_library(autocoder_core STATIC
     src/core/plugin_manager.cpp
 )
 
+target_link_libraries(autocoder_core
+    Qt6::Core
+    Qt6::Widgets
+)
+
 # AI Engine library (DeepSeeker integration)
 add_library(ai_engine STATIC
     src/ai_engine/deepseeker_client.cpp
     src/ai_engine/model_manager.cpp
     src/ai_engine/inference_engine.cpp
     src/ai_engine/self_improvement.cpp
+)
+
+target_link_libraries(ai_engine
+    CURL::libcurl
+    Qt6::Core
 )
 
 # Debugger library

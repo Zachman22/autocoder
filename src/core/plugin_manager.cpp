@@ -1,9 +1,37 @@
 #include "core/plugin_manager.h"
-#include <dlfcn.h>
 #include <filesystem>
+
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <dlfcn.h>
+#endif
 
 namespace AutoCoder {
 namespace Core {
+
+// Platform-specific DLL loading helpers
+#ifdef _WIN32
+static void* platformLoadLibrary(const char* path) {
+    return (void*)LoadLibraryA(path);
+}
+
+static void platformUnloadLibrary(void* handle) {
+    if (handle) {
+        FreeLibrary((HMODULE)handle);
+    }
+}
+#else
+static void* platformLoadLibrary(const char* path) {
+    return dlopen(path, RTLD_LAZY);
+}
+
+static void platformUnloadLibrary(void* handle) {
+    if (handle) {
+        dlclose(handle);
+    }
+}
+#endif
 
 PluginManager::PluginManager() {}
 
@@ -12,7 +40,7 @@ PluginManager::~PluginManager() {
 }
 
 bool PluginManager::loadPlugin(const std::string& plugin_path) {
-    void* handle = dlopen(plugin_path.c_str(), RTLD_LAZY);
+    void* handle = platformLoadLibrary(plugin_path.c_str());
     if (!handle) {
         return false;
     }
@@ -28,9 +56,7 @@ bool PluginManager::unloadPlugin(const std::string& plugin_name) {
         return false;
     }
 
-    if (it->second) {
-        dlclose(it->second);
-    }
+    platformUnloadLibrary(it->second);
 
     plugins_.erase(plugin_name);
     plugin_handles_.erase(it);
@@ -60,9 +86,7 @@ void PluginManager::loadAllPlugins(const std::string& plugins_directory) {
 
 void PluginManager::unloadAllPlugins() {
     for (auto& pair : plugin_handles_) {
-        if (pair.second) {
-            dlclose(pair.second);
-        }
+        platformUnloadLibrary(pair.second);
     }
     plugins_.clear();
     plugin_handles_.clear();
