@@ -151,9 +151,12 @@ target_link_libraries(autocoder
     OpenSSL::SSL
     OpenSSL::Crypto
     CURL::libcurl
-    pthread
-    dl
 )
+
+# Platform-specific libraries
+if(UNIX)
+    target_link_libraries(autocoder pthread dl)
+endif()
 
 # Tests
 if(BUILD_TESTS)
