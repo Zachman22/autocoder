@@ -117,6 +117,13 @@ add_library(gui STATIC
     src/gui/output_panel.cpp
     src/gui/settings_dialog.cpp
     src/gui/theme_manager.cpp
+    include/gui/main_window.h
+    include/gui/code_editor.h
+    include/gui/chat_panel.h
+    include/gui/debugger_panel.h
+    include/gui/output_panel.h
+    include/gui/settings_dialog.h
+    include/gui/theme_manager.h
 )
 
 # Link Qt to GUI library
